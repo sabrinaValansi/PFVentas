@@ -1,0 +1,53 @@
+﻿@model IEnumerable<PFVentas.Models.Producto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Productos</h1>
+
+<p>
+    <a asp-action="Create">Agregar producto</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NomProd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantExist)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioCosto)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomProd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CantExist)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrecioCosto)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProductoId">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProductoId">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProductoId">Eliminar</a>
+
+                </td>
+            </tr>
+        }
+       
+        <div>
+            <a asp-controller="Home" asp-action="Index">Volver al menu principal</a>
+        </div>
+    </tbody>
+</table>

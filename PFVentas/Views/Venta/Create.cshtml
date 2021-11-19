@@ -1,0 +1,60 @@
+﻿@model PFVentas.Models.Venta
+
+@{
+    ViewData["Title"] = "Create";
+    
+}
+
+<h1>Cargar nueva venta</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Fecha" class="control-label">Fecha</label>
+                <input asp-for="Fecha" class="form-control" />
+                <span asp-validation-for="Fecha" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CanalVta" class="control-label">Canal de venta</label>
+                <select asp-for="CanalVta" class="form-control" asp-items="Html.GetEnumSelectList<CanalVta>()">
+                    <option selected="selected" value="">Ingrese el canal de venta</option>
+                </select>
+                <span asp-validation-for="CanalVta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Producto" class="control-label">Producto</label>
+                @*<input asp-for="Producto" class="form-control" />*@
+                @Html.DropDownList("ProductoId", (IEnumerable<SelectListItem>)ViewBag.Producto)
+
+                @*@Html.DropDownListFor(o => o.ProductoId,new SelectList(ViewBag.Producto, "ProductoId", "NomProd"))*@
+                <span asp-validation-for="Producto" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Cantidad" class="control-label">Cantidad</label>
+                <input asp-for="Cantidad" class="form-control" />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecioVtaUnit" class="control-label">Precio unitario</label>
+                <input asp-for="PrecioVtaUnit" class="form-control" />
+                <span asp-validation-for="PrecioVtaUnit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Cargar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volver al listado de ventas</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

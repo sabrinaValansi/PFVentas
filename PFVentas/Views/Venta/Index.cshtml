@@ -1,0 +1,63 @@
+﻿@model IEnumerable<PFVentas.Models.Venta>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Ventas</h1>
+
+<p>
+    <a asp-action="Create">Cargar Nueva venta</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CanalVta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioVtaUnit)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CanalVta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cantidad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrecioVtaUnit)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.VentaId">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.VentaId">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.VentaId">Eliminar</a>
+                </td>
+            </tr>
+        }
+        <div>
+            <a asp-controller="Home" asp-action="Index">Volver al menu principal</a>
+        </div>
+    </tbody>
+</table>
