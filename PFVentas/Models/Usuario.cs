@@ -20,6 +20,7 @@ namespace PFVentas.Models
         public string Email { get; set; }
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "Debe ingresar una contraseña")]
+        [DataType(DataType.Password)]
         public string Contrasenia { get; set; }
 
         public String mostrarNomYApe()

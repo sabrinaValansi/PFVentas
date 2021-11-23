@@ -60,7 +60,8 @@ namespace PFVentas.Controllers
                
                 if (UsuarioExists(usuario.Email))
                 {
-                    return Content("EL USUARIO INGRESADO YA EXISTE");
+                    ModelState.AddModelError("Email","Este correo ya esta registrado");
+                    return View(usuario);
                     
                 }
                 else { 
