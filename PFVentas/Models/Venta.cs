@@ -15,8 +15,9 @@ namespace PFVentas.Models
         [Display(Name = "Canal de venta")]
         public String CanalVta { get; set; }
         public int ProductoId { get; set; }
-        [Required(ErrorMessage = "Debe ingresar el producto vendido")]
-        public String Producto { get; set; }
+        //[Display(Name = "Producto")]
+        //[Required(ErrorMessage = "Debe ingresar el producto vendido")]
+        //public String Producto { get; set; }
         [Required(ErrorMessage = "Debe ingresar la cantidad vendida")]
         [Range(1, 1000, ErrorMessage = "La cantidad vendida debe estar entre 1 y 1000")]
         public int Cantidad { get; set; }

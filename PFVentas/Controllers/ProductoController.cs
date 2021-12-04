@@ -58,9 +58,21 @@ namespace PFVentas.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(producto);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (_context.Productos.Any(e => e.NomProd == producto.NomProd))
+                {
+                    var prodAux = _context.Productos.FirstOrDefault(x => x.NomProd == producto.NomProd) ;
+                    prodAux.CantExist += producto.CantExist;
+                    prodAux.PrecioCosto = producto.PrecioCosto;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+
+                    _context.Add(producto);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             
             return View(producto);

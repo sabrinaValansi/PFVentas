@@ -21,7 +21,35 @@ namespace PFVentas.Controllers
         // GET: Venta
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Ventas.ToListAsync());
+            var consulta = 
+                _context.Ventas.FromSqlRaw("select ventas.*, productos.nomprod from ventas left join productos ON ventas.productoid=productos.productoid").ToListAsync();
+
+                    //from v in _context.Ventas
+                    //join p in _context.Productos on v.ProductoId equals p.ProductoId into unionTablas
+                    //from p in unionTablas.DefaultIfEmpty()
+                    //select new
+                    // {
+                    //     Fecha=v.Fecha,
+                    //     VentaId=v.VentaId,
+                    //     Usuario=v.UsuarioId,
+                    //     idProducto=v.ProductoId,
+                    //     Canal=v.CanalVta,
+                    //     Precio=v.PrecioVtaUnit,
+                    //     Cantidad=v.Cantidad,
+                    //     Producto=p.NomProd
+                    //  }
+
+                    
+
+
+                    // );
+
+           // var venta = consulta.ToListAsync();
+            return View(await consulta);
+           
+
+
+
         }
 
         // GET: Venta/Details/5
@@ -45,7 +73,7 @@ namespace PFVentas.Controllers
         // GET: Venta/Create
         public IActionResult Create()
         {
-            ViewBag.Producto = new SelectList(_context.Productos.ToList(), "ProductoId", "NomProd");
+            ViewBag.NomProd = new SelectList(_context.Productos.ToList(), "ProductoId", "NomProd");
             return View();
         }
 
@@ -54,14 +82,19 @@ namespace PFVentas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VentaId,Fecha,CanalVta,ProductoId,Producto,Cantidad,PrecioVtaUnit")] Venta venta)
+        public async Task<IActionResult> Create([Bind("VentaId,Fecha,CanalVta,ProductoId,Cantidad,PrecioVtaUnit,UsuarioId")] Venta venta)
         {
             if (ModelState.IsValid)
             {
+                
                 _context.Add(venta);
+                await EliminarProdAsync(venta.ProductoId, venta.Cantidad);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            string messages = string.Join("; ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
             return View(venta);
         }
 
@@ -86,7 +119,7 @@ namespace PFVentas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VentaId,Fecha,CanalVta,Producto,Cantidad,PrecioVtaUnit")] Venta venta)
+        public async Task<IActionResult> Edit(int id, [Bind("VentaId,Fecha,CanalVta,NomProd,Cantidad,PrecioVtaUnit")] Venta venta)
         {
             if (id != venta.VentaId)
             {
@@ -149,5 +182,22 @@ namespace PFVentas.Controllers
         {
             return _context.Ventas.Any(e => e.VentaId == id);
         }
+
+        public async Task<IActionResult> EliminarProdAsync(int prod, int cant)
+        {
+            if (_context.Productos.Any(e => e.ProductoId == prod))
+            {
+                var prodAux = _context.Productos.FirstOrDefault(x => x.ProductoId == prod);
+                if (prodAux.CantExist-cant <0)
+                {
+                    return NotFound();
+                }
+                prodAux.CantExist -= cant;
+                await _context.SaveChangesAsync();
+                
+            }
+            return View();
+        }
+
     }
 }
