@@ -21,30 +21,26 @@ namespace PFVentas.Controllers
         // GET: Venta
         public async Task<IActionResult> Index()
         {
-            var consulta = 
-                _context.Ventas.FromSqlRaw("select ventas.*, productos.nomprod from ventas left join productos ON ventas.productoid=productos.productoid").ToListAsync();
+            var consulta = (
+                    //_context.Ventas.FromSqlRaw("select ventas.*, productos.nomprod from ventas left join productos ON ventas.productoid=productos.productoid").ToListAsync();
 
-                    //from v in _context.Ventas
-                    //join p in _context.Productos on v.ProductoId equals p.ProductoId into unionTablas
-                    //from p in unionTablas.DefaultIfEmpty()
-                    //select new
-                    // {
-                    //     Fecha=v.Fecha,
-                    //     VentaId=v.VentaId,
-                    //     Usuario=v.UsuarioId,
-                    //     idProducto=v.ProductoId,
-                    //     Canal=v.CanalVta,
-                    //     Precio=v.PrecioVtaUnit,
-                    //     Cantidad=v.Cantidad,
-                    //     Producto=p.NomProd
-                    //  }
+                    from v in _context.Ventas
+                    join p in _context.Productos on v.ProductoId equals p.ProductoId into unionTablas
+                    from p in unionTablas.DefaultIfEmpty()
+                    select v
+                    //{
+                    //Fecha = v.Fecha,
+                    //v.VentaId,
+                    //Usuario = v.UsuarioId,
+                    //idProducto = v.ProductoId,
+                    //Canal = v.CanalVta,
+                    //Precio = v.PrecioVtaUnit,
+                    //Cantidad = v.Cantidad,
+                    //Producto = p.NomProd
+                    //}
 
-                    
-
-
-                    // );
-
-           // var venta = consulta.ToListAsync();
+                    ).ToListAsync();
+               
             return View(await consulta);
            
 
