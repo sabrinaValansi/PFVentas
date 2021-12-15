@@ -22,31 +22,27 @@ namespace PFVentas.Controllers
         public async Task<IActionResult> Index()
         {
             var consulta = (
-                    //_context.Ventas.FromSqlRaw("select ventas.*, productos.nomprod from ventas left join productos ON ventas.productoid=productos.productoid").ToListAsync();
-
+                    
                     from v in _context.Ventas
-                    join p in _context.Productos on v.ProductoId equals p.ProductoId into unionTablas
-                    from p in unionTablas.DefaultIfEmpty()
-                    select v
-                    //{
-                    //Fecha = v.Fecha,
-                    //v.VentaId,
-                    //Usuario = v.UsuarioId,
-                    //idProducto = v.ProductoId,
-                    //Canal = v.CanalVta,
-                    //Precio = v.PrecioVtaUnit,
-                    //Cantidad = v.Cantidad,
-                    //Producto = p.NomProd
-                    //}
+                    join p in _context.Productos 
+                    on v.ProductoId equals p.ProductoId 
+                    select new VentaViewModel
+                    {
+                    Fecha = v.Fecha,
+                    VentaId=v.VentaId,
+                    ProductoId = v.ProductoId,
+                    CanalVta = v.CanalVta,
+                    PrecioVtaUnit = v.PrecioVtaUnit,
+                    Cantidad = v.Cantidad,
+                    NomProd = p.NomProd
+                    }
 
-                    ).ToListAsync();
-               
-            return View(await consulta);
-           
+             ).ToListAsync();
 
+            return View(await consulta);  
 
+         }
 
-        }
 
         // GET: Venta/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PFVentas.Models.Venta>
+﻿@model IEnumerable<PFVentas.Models.VentaViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.CanalVta)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductoId)
+                @Html.DisplayNameFor(model => model.NomProd)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cantidad)
@@ -33,28 +33,29 @@
     <tbody style="background-color:aliceblue">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fecha)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CanalVta)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductoId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cantidad)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PrecioVtaUnit)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.VentaId" style="color:black">Editar</a> ∙
-                    <a asp-action="Details" asp-route-id="@item.VentaId"style="color: black">Detalles</a> ∙
-                    <a asp-action="Delete" asp-route-id="@item.VentaId"style="color: black">Eliminar</a>
-                </td>
-            </tr>
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CanalVta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomProd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioVtaUnit)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.VentaId" style="color:black">Editar</a> ∙
+                <a asp-action="Details" asp-route-id="@item.VentaId" style="color: black">Detalles</a> ∙
+                <a asp-action="Delete" asp-route-id="@item.VentaId" style="color: black">Eliminar</a>
+            </td>
+        </tr>
         }
         <div>
             <a asp-controller="Home" asp-action="Index">Volver al menu principal</a>
