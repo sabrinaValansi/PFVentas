@@ -13,6 +13,7 @@ namespace PFVentas.Models
         public DateTime Fecha { get; set; }
         public int UsuarioId { get; set; }
         [Display(Name = "Canal de venta")]
+        
         public String CanalVta { get; set; }
         public int ProductoId { get; set; }
         //[Display(Name = "Producto")]
@@ -25,5 +26,7 @@ namespace PFVentas.Models
         [Required(ErrorMessage = "Debe ingresar el precio unitario del producto vendido")]
         [Range(1, 100000, ErrorMessage = "El precio de venta debe estar entre  $1 y $100000")]
         public double PrecioVtaUnit { get; set; }
+        
+        
     }
 }

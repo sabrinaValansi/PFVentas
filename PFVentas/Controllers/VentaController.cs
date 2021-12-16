@@ -78,12 +78,23 @@ namespace PFVentas.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                _context.Add(venta);
-                await EliminarProdAsync(venta.ProductoId, venta.Cantidad);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if(HayProducto(venta.ProductoId,venta.Cantidad))
+                { 
+                    _context.Add(venta);
+                    await EliminarProdAsync(venta.ProductoId, venta.Cantidad);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            if(!HayProducto(venta.ProductoId, venta.Cantidad))
+            {
+                if (_context.Productos.Any(e => e.ProductoId == venta.ProductoId))
+                {
+                    var prodAux = _context.Productos.FirstOrDefault(x => x.ProductoId == venta.ProductoId);
+                    return Content("La cantidad maxima a vender del producto "+prodAux.NomProd+" es " + prodAux.CantExist);
+                }
+            }
+
             string messages = string.Join("; ", ModelState.Values
                                         .SelectMany(x => x.Errors)
                                         .Select(x => x.ErrorMessage));
@@ -111,7 +122,7 @@ namespace PFVentas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VentaId,Fecha,CanalVta,NomProd,Cantidad,PrecioVtaUnit")] Venta venta)
+        public async Task<IActionResult> Edit(int id, [Bind("VentaId,Fecha,CanalVta,NomProd,Cantidad,ProductoId,PrecioVtaUnit")] Venta venta)
         {
             if (id != venta.VentaId)
             {
@@ -190,6 +201,18 @@ namespace PFVentas.Controllers
             }
             return View();
         }
+        private bool HayProducto(int id, int cant)
+        {
+            if (_context.Productos.Any(e => e.ProductoId == id))
+            {
+                var prodAux = _context.Productos.FirstOrDefault(x => x.ProductoId == id);
+                if (prodAux.CantExist >= cant)
+                {
+                    return true;
+                }
+            }
 
+            return false;
+        }
     }
 }

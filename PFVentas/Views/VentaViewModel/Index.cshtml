@@ -1,0 +1,55 @@
+﻿@model IEnumerable<PFVentas.Models.VentaViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Resumen de ventas</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NomProd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioCosto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MargenGanancia)
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody style="background-color:aliceblue">
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomProd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioCosto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MargenGanancia)
+            </td>
+            
+            
+        </tr>
+}
+    </tbody>
+</table>

@@ -20,25 +20,16 @@
             </div>
             <div class="form-group">
                 <label asp-for="CanalVta" class="control-label">Canal de venta</label>
-                <select asp-for="CanalVta" class="form-control" asp-items="Html.GetEnumSelectList<CanalVta>()">
-                    <option selected="selected" value="">Ingrese el canal de venta</option>
-                </select>
+                <input asp-for="CanalVta" class="form-control" >
+                   
                 <span asp-validation-for="CanalVta" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProductoId" class="control-label">Producto</label>
-
-                @* <input asp-for="Producto" class="form-control" />*@
-
-            <div>
-                <select asp-for="ProductoId" asp-items="ViewBag.NomProd">
-
-                </select>
-                @*@Html.DropDownList("ProductoId", (IEnumerable<SelectListItem>)ViewBag.NomProd)*@
-            </div>
-                @*@Html.DropDownListFor(o => o.ProductoId,new SelectList(ViewBag.NomProd, "ProductoId", "NomProd"))*@
+                <div>
+                      <select asp-for="ProductoId" asp-items="ViewBag.NomProd"></select>
+                 </div>
                 <span asp-validation-for="ProductoId" class="text-danger"></span>
-
             </div>
             <div class="form-group">
                 <label asp-for="Cantidad" class="control-label">Cantidad</label>
@@ -46,7 +37,7 @@
                 <span asp-validation-for="Cantidad" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PrecioVtaUnit" class="control-label">Precio unitario</label>
+                <label asp-for="PrecioVtaUnit" class="control-label">Precio de venta unitario</label>
                 <input asp-for="PrecioVtaUnit" class="form-control" />
                 <span asp-validation-for="PrecioVtaUnit" class="text-danger"></span>
             </div>

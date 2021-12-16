@@ -23,9 +23,6 @@ namespace PFVentas.Models
         [DataType(DataType.Password)]
         public string Contrasenia { get; set; }
 
-        public String mostrarNomYApe()
-        {
-            return "Nombre y Apellido";
-        }
+        
     }
 }
